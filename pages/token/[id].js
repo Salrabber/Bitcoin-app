@@ -2,11 +2,12 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import MainLayout from "../../layouts/MainLayout";
 import Link from "next/link";
+import classes from "./tokenpage.module.scss";
 
 export default function TokenPage(tokens) {
   const router = useRouter();
   const id = router.query.id;
-  //   const [info, setInfo] = useState({});
+  console.log(tokens);
   const obj = tokens.tokens;
   const keys = Object.keys(obj);
   const key = keys[id - 1];
@@ -15,17 +16,19 @@ export default function TokenPage(tokens) {
     return (
       <>
         <MainLayout>
-          <h1>More Info</h1>
-          <ul>
-            {Object.keys(infotoken).map((key, index) => {
-              return (
-                <li key={index}>
-                  {key} : {infotoken[key]}
-                </li>
-              );
-            })}
-          </ul>
-          <Link href="/">Back to Front-page</Link>
+          <div className={classes.wrapper}>
+            <h1>More Info</h1>
+            <ul className={'list-group'}>
+              {Object.keys(infotoken).map((key, index) => {
+                return (
+                  <li className='list-group-item' key={index}>
+                    {key} : {infotoken[key]}
+                  </li>
+                );
+              })}
+            </ul>
+            <Link href="/"><a className='link-primary'>Back to Front-page</a></Link>
+          </div>
         </MainLayout>
       </>
     );

@@ -22,7 +22,8 @@ export function hideLoader(){
 export function fetchTokens(){
     return async dispatch => {
         dispatch(showLoader())
-        const response = await fetch('https://jsonplaceholder.typicode.com/albums?_limit=5')
+        // const response = await fetch('https://jsonplaceholder.typicode.com/albums?_limit=5')
+        const response = await fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
         const json = await response.json()
         setTimeout(() => {
             dispatch({

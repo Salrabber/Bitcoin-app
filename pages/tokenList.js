@@ -1,49 +1,58 @@
 import React from "react";
 import { connect } from "react-redux";
+import { useEffect } from "react";
 import Token from "./token";
 import { createToken } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTokens } from "../redux/actions";
 import Loader from "./loader";
+import classes from "../styles/tokenlist.module.scss";
 
 function TokenList(props) {
-  const keys = Object.keys(props.tokens);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    async function load() {
+      dispatch(fetchTokens());
+    }
+    load();
+  }, []);
+  const serverData = useSelector((state) => state.tokens.fetchTokens.bpi);
+  const loading = useSelector((state) => state.app.loading);
   function clickHandler() {
     props.createToken({ price: "$500" });
   }
-  const dispatch = useDispatch();
-  const serverData = useSelector((state) => state.tokens.fetchTokens);
-  const loading = useSelector((state) => state.app.loading);
-
   return (
-    <ul>
-      {keys.map((key, index) => {
-        return (
-          <Token token={props.tokens[key]} key={index + 1} index={index + 1} />
-        );
-      })}
-      <button onClick={clickHandler}>
-        <p>Add state</p>
-      </button>
-      <p>Data: {JSON.stringify(props.actualPrice)}</p>
-      <button onClick={() => dispatch(fetchTokens())}>
-        <p>Load server data</p>
-      </button>
-
+    <ul className='list-group'>
       {loading ? (
         <Loader />
       ) : (
-        serverData.map((token) => {
-        return (
-          <p key={token.id}>
-            {token.id + "  "}
-            {token.title}
-          </p>
-        );
-      })
+        <>
+          <button
+            type="Button"
+            className={"btn btn-primary"}
+            onClick={() => dispatch(fetchTokens())}
+          >
+            <p>Load server data</p>
+          </button>
+          {Object.keys(props.tokens).map((key, index) => {
+            return (
+              <>
+                <Token
+                  className='list-group-item'
+                  token={props.tokens[key]}
+                  key={index}
+                  index={index + 1}
+                />
+              </>
+            );
+          })}
+        </>
       )}
 
-      
+      {/* <button onClick={clickHandler}>
+        <p>Add state</p>
+      </button>
+      <p>Data: {JSON.stringify(props.actualPrice)}</p> */}
     </ul>
   );
 }
