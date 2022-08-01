@@ -5,8 +5,11 @@ import TokenList from "./tokenList";
 import MainLayout from "../layouts/MainLayout";
 
 export default function Index(info) {
-    const state = {}
-  const tokeninfo = info.info
+  
+
+
+
+  const tokeninfo = info.info;
   return (
     <div className={classes.wrapper}>
       <MainLayout>
