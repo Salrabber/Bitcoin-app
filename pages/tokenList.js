@@ -4,6 +4,7 @@ import Token from "./token";
 import { createToken } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTokens } from "../redux/actions";
+import Loader from "./loader";
 
 function TokenList(props) {
   const keys = Object.keys(props.tokens);
@@ -12,6 +13,7 @@ function TokenList(props) {
   }
   const dispatch = useDispatch();
   const serverData = useSelector((state) => state.tokens.fetchTokens);
+  const loading = useSelector((state) => state.app.loading);
 
   return (
     <ul>
@@ -27,11 +29,21 @@ function TokenList(props) {
       <button onClick={() => dispatch(fetchTokens())}>
         <p>Load server data</p>
       </button>
-      {serverData.map((token) => {
+
+      {loading ? (
+        <Loader />
+      ) : (
+        serverData.map((token) => {
         return (
-          <p key={token.id}>{token.id + "  "}{token.title}</p>
+          <p key={token.id}>
+            {token.id + "  "}
+            {token.title}
+          </p>
         );
-      })}
+      })
+      )}
+
+      
     </ul>
   );
 }
