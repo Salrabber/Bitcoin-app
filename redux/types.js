@@ -1,1 +1,4 @@
-export const CREATE_TOKEN = 'CREATE_TOKEN'
+export const CREATE_TOKEN = 'TOKEN/CREATE_TOKEN'
+export const FETCH_TOKENS = 'TOKEN/FETCH_TOKENS'
+export const SHOW_LOADER = 'APP/SHOW_LOADER'
+export const HIDE_LOADER = 'APP/HIDE_LOADER'
